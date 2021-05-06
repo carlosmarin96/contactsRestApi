@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Contact = require('../models/contacts');
+const {Contact, validateContact} = require('../models/contacts');
 
 //POST: CREATING A NEW CONTACT
-router.post('/', (req,res) => {
+router.post('/', async (req,res) => {
+    const error = await validateContact(req.body);
+    if(error.message) res.status(400).send(error.message)
     contact = new Contact({
         name:req.body.name,
         lastname:req.body.lastname,

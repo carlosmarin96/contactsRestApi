@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const yup = require('yup');
 
 //Contact Schema
 const ContactSchema = new mongoose.Schema({
@@ -16,15 +16,11 @@ const ContactSchema = new mongoose.Schema({
         maxlength:50
     },
     company:{
-        type:String,
-        minlength:3,
-        maxlength:50
+        type:String
     },
     phone:{
         type:String,
         unique: true,
-        minlength:10,
-        maxlength:15
     },
     email:{
         type:String,
@@ -35,4 +31,17 @@ const ContactSchema = new mongoose.Schema({
     }
 });
 
-module.exports = new mongoose.model('Contact', ContactSchema);
+const validateContact = contact => {
+    const schema = yup.object().shape({
+        name:yup.string().required().min(3).max(50),
+        lastname:yup.string().required().min(3).max(50),
+        company:yup.string(),
+        phone:yup.string(),
+        email:yup.string().required().min(3).max(50)
+    });
+
+    return schema.validate(contact).then(contact => contact).catch(error => {return{message:error.message}});
+};
+
+exports.Contact = new mongoose.model('Contact', ContactSchema);
+exports.validateContact = validateContact;
