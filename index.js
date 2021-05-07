@@ -4,8 +4,11 @@ const winston = require('winston');
 const app = express();
 require('dotenv').config();
 const contactsRoute = require('./routes/contacts')
-
+const cors = require('cors');
 const PORT = process.env.PORT || 3000
+
+
+app.use(cors({origin: "*", methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']}))
 
 //middlewares
 app.use(express.json());

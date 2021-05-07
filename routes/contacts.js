@@ -44,6 +44,7 @@ router.get("/:contactId", async (req,res) => {
 
 //UPDATE CONTACT BASED ON ID
 router.put("/:contactId", async (req, res) => {
+    var contactId = contactId;
     const updatedContact = await Contact.findByIdAndUpdate(req.params.contactId,{
         name:req.body.name,
         lastname:req.body.lastname,
@@ -54,6 +55,8 @@ router.put("/:contactId", async (req, res) => {
     {new:true}
     );
     if(!updatedContact) res.status(404).send("Contact not found");
+    res.send(updatedContact);
+    return; 
 });
 
 
