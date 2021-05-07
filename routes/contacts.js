@@ -49,7 +49,7 @@ router.put("/:contactId", async (req, res) => {
         lastname:req.body.lastname,
         company:req.body.company,
         phone:req.body.phone,
-        email:req.params.email
+        email:req.body.email
     },
     {new:true}
     );
